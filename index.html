@@ -3,265 +3,264 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>رحلة أبطال التوحيد — دروس تفاعلية</title>
+  <title>رحلة أبطال التوحيد — دروس مبسطة</title>
   <style>
-    :root{--green:#3bb36e;--blue:#3a92d6;--gold:#f7c95d;--bg:#f6fffb;--card:#fff;--text:#123;--muted:#476;}
+    :root{--green:#28a745;--blue:#0d6efd;--gold:#f7c95d;--bg:#f1fbf8;--card:#fff;--text:#1b2d2a;--muted:#4e6b66}
     *{box-sizing:border-box}
-    body{margin:0;font-family:Segoe UI, Tahoma, sans-serif;background:linear-gradient(180deg,#f7fff8,#eef7ff);color:var(--text);direction:rtl}
-    header{background:linear-gradient(135deg,var(--green),var(--blue));color:#fff;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
-    .brand{font-weight:900;font-size:1.1rem;display:flex;align-items:center;gap:12px}
-    .container{width:min(1100px,94%);margin:20px auto}
-
-    /* Fixed lesson button (top-right) */
-    .fixed-lesson{
-      position:fixed;top:18px;right:18px;z-index:9999;display:flex;flex-direction:column;gap:10px;align-items:flex-end
+    html,body{height:100%;}
+    body{margin:0;font-family:Segoe UI, Tahoma, sans-serif;background-image:linear-gradient(180deg,#eafaf5,#eef7ff);color:var(--text);direction:rtl}
+    /* fixed background image look */
+    .cover{
+      position:fixed;inset:0;background-image:linear-gradient(180deg,rgba(250,253,255,.6),rgba(255,255,255,.6)), url('https://images.unsplash.com/photo-1521335629791-ce4aec67dd9b?auto=format&fit=crop&w=1600&q=60');background-size:cover;background-position:center;filter:brightness(.95);z-index:-1
     }
-    .lesson-btn{background:linear-gradient(135deg,var(--gold),#ffd36a);border:none;padding:12px 16px;border-radius:12px;font-weight:900;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.15)}
-    .balance-badge{background:#fff;padding:8px 12px;border-radius:999px;font-weight:900;color:var(--green);box-shadow:0 8px 20px rgba(30,80,50,.08)}
+    header{background:linear-gradient(90deg,var(--green),var(--blue));color:#fff;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
+    .brand{font-weight:900;font-size:1.1rem;display:flex;align-items:center;gap:12px}
+    .container{width:min(1100px,94%);margin:24px auto 80px}
 
-    /* Main area: show list of available lessons (compact cards) */
-    .lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:18px}
-    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 10px 30px rgba(15,60,50,.06);border:1px solid rgba(20,80,70,.04)}
+    /* Lesson cards */
+    .lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 12px 30px rgba(20,60,50,.08);border:1px solid rgba(20,80,70,.04)}
     .card h3{margin:6px 0 8px}
     .card p{color:var(--muted);margin:0}
-    .start-small{background:linear-gradient(135deg,var(--green),var(--blue));color:#fff;border:none;padding:8px 12px;border-radius:10px;font-weight:800;cursor:pointer}
+    .start-small{background:linear-gradient(135deg,var(--green),var(--blue));color:#fff;border:none;padding:10px 12px;border-radius:10px;font-weight:800;cursor:pointer}
 
-    /* Quiz modal */
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;place-items:center;z-index:2000}
-    .overlay.show{display:grid}
-    .quiz-card{background:#fff;max-width:760px;width:96%;border-radius:14px;padding:18px}
-    .quiz-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
-    .q-text{font-size:1.25rem;margin:12px 0}
-    .answers{display:grid;gap:10px}
-    .opt{background:#f6fbff;border:1px solid rgba(40,120,160,.08);padding:12px;border-radius:10px;cursor:pointer;font-weight:800}
-    .opt.correct{background:#e8fbef;border-color:#4fc17f;color:#065a35}
-    .opt.wrong{background:#fff0f0;border-color:#ee7d6b;color:#9b2f2f}
-    .controls{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
-    .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:900}
-    .btn.primary{background:linear-gradient(135deg,var(--green),var(--blue));color:#fff}
-    .btn.ghost{background:#fff;border:1px solid rgba(20,60,50,.06)}
+    /* Fixed top-right controls */
+    .fixed-top{position:fixed;top:12px;right:12px;display:flex;flex-direction:column;gap:10px;align-items:flex-end;z-index:60}
+    .balance-badge{background:#fff;padding:8px 12px;border-radius:999px;font-weight:900;color:var(--green);box-shadow:0 10px 30px rgba(20,80,60,.12)}
+    .lesson-open-btn{background:linear-gradient(135deg,#ffd46a,#ffb347);border:none;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.15)}
 
-    /* Reward modal */
-    .reward-modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.45);z-index:2500}
+    /* viewer */
+    .viewer{background:linear-gradient(180deg,#ffffff,#f8fffb);border-radius:12px;padding:18px;margin-top:18px;box-shadow:0 12px 35px rgba(10,40,30,.06)}
+    .slide-title{font-weight:900;font-size:1.3rem;margin-bottom:8px}
+    .slide-body{min-height:160px;padding:12px;border-radius:8px;background:linear-gradient(180deg,#fbfffc,#fff);border:1px solid rgba(30,80,70,.03)}
+    .vocab-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .vocab-item{background:#f0fff6;padding:8px 10px;border-radius:10px;border:1px solid rgba(30,90,70,.06);font-weight:800}
+
+    /* navigation fixed bottom */
+    .nav-bottom{position:fixed;left:18px;right:18px;bottom:12px;display:flex;justify-content:space-between;gap:12px;z-index:70}
+    .btn-nav{padding:12px 18px;border-radius:12px;border:none;font-weight:900;cursor:pointer}
+    .btn-back{background:#fff;border:1px solid rgba(20,60,50,.08)}
+    .btn-next{background:linear-gradient(90deg,var(--green),var(--blue));color:#fff}
+
+    /* overlay quiz section options */
+    .options{display:grid;gap:10px;margin-top:12px}
+    .opt{background:#f6fbff;border:1px solid rgba(30,120,160,.06);padding:12px;border-radius:10px;cursor:pointer;font-weight:800}
+    .opt.correct{background:#e9fbef;border-color:#49b36f;color:#0a5d36}
+    .opt.wrong{background:#fff0f0;border-color:#f48b7a;color:#a8322d}
+
+    /* reward modal */
+    .reward-modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.45);z-index:90}
     .reward-modal.show{display:grid}
-    .reward-card{background:linear-gradient(135deg,#fffaf0,#fff8dd);padding:20px;border-radius:12px;text-align:center;max-width:420px;width:94%}
-    .reward-card h2{margin:6px 0;color:var(--gold)}
-    .reward-card p{font-weight:800}
+    .reward-card{background:linear-gradient(135deg,#fff4e6,#fff9f0);padding:18px;border-radius:12px;text-align:center;max-width:480px;width:94%}
 
-    footer{padding:20px;text-align:center;color:var(--muted)}
-
-    @media (max-width:560px){.brand{font-size:1rem}.q-text{font-size:1.05rem}}
+    @media (max-width:600px){.lessons-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));}.slide-body{min-height:140px}}
   </style>
 </head>
 <body>
+  <div class="cover" aria-hidden="true"></div>
   <header>
-    <div class="brand">رحلة أبطال التوحيد — دروس تفاعلية</div>
-    <div style="opacity:.95;font-weight:800">آمن للأطفال • واجهة عربية RTL</div>
+    <div class="brand">رحلة أبطال التوحيد — تبسيط مبادئ من كتاب التوحيد</div>
+    <div style="opacity:.95;font-weight:800">مبسط للأطفال — مصدر المرجع: محمد بن عبد الوهاب (تبسيط لغوي)</div>
   </header>
 
-  <!-- Fixed lesson button + balance -->
-  <div class="fixed-lesson" aria-hidden="false">
+  <div class="fixed-top">
     <div class="balance-badge" id="balanceTop">0 د.إ</div>
-    <button class="lesson-btn" id="startLessonBtn">تعلم درس</button>
+    <button class="lesson-open-btn" id="openLessonBtn">تعلم درس</button>
   </div>
 
   <main class="container">
-    <h2 style="margin-top:6px">اختر درسًا أو اضغط "تعلم درس" لبدء اختبار مكوّن من 10 أسئلة</h2>
+    <section>
+      <h2>قائمة الدروس (20 درسًا مبسطة)</h2>
+      <div class="lessons-grid" id="lessonsGrid"></div>
+    </section>
 
-    <div class="lessons-grid" id="lessonsGrid"></div>
-
-    <!-- Quiz overlay -->
-    <div class="overlay" id="quizOverlay" role="dialog" aria-modal="true">
-      <div class="quiz-card" id="quizCard">
-        <div class="quiz-head">
-          <div style="font-weight:900" id="quizTitle">درس تجريبي</div>
-          <div style="color:var(--muted)" id="quizProgress">1 / 10</div>
-        </div>
-        <div class="q-text" id="questionText">السؤال هنا</div>
-        <div class="answers" id="answersList"></div>
-        <div class="controls">
-          <div style="color:var(--muted);font-weight:800" id="quizScore">الدرجات: 0</div>
-          <div>
-            <button class="btn ghost" id="quitQuiz">إنهاء</button>
-            <button class="btn primary" id="nextBtn">التالي</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Reward modal -->
-    <div class="reward-modal" id="rewardModal">
-      <div class="reward-card">
-        <h2 id="rewardTitle">مبروك!</h2>
-        <p id="rewardText">لقد ربحت 100 د.إ</p>
-        <div style="margin-top:12px">
-          <button class="btn primary" id="closeReward">حسناً</button>
-        </div>
-      </div>
-    </div>
-
+    <section class="viewer hidden" id="viewerSection" aria-hidden="true">
+      <div class="slide-title" id="slideTitle">عنوان الدرس</div>
+      <div class="slide-body" id="slideBody"></div>
+      <div class="vocab-list" id="vocabList"></div>
+      <div class="options" id="optionsList"></div>
+    </section>
   </main>
 
-  <footer>هذا الموقع تعليمي منزلي — المكافآت نقدًا تُدار بين الأهل والأبناء خارج التطبيق.</footer>
+  <div class="nav-bottom">
+    <button class="btn-nav btn-back" id="btnBack">رجوع</button>
+    <button class="btn-nav btn-next" id="btnNext">تقدم</button>
+  </div>
+
+  <div class="reward-modal" id="rewardModal">
+    <div class="reward-card">
+      <h2 id="rewardTitle">مبروك!</h2>
+      <p id="rewardText">لقد ربحت 100 د.إ</p>
+      <div style="margin-top:12px"><button class="btn-nav btn-next" id="closeReward">حسناً</button></div>
+    </div>
+  </div>
 
   <script>
-    // بيانات بسيطة: 6 دروس، كل درس يستعمل 10 أسئلة (بناء تلقائي من أسئلة قصيرة)
-    const lessonBank = [
-      {id:1,title:'معنى التوحيد'},
-      {id:2,title:'لماذا نعبد الله وحده؟'},
-      {id:3,title:'معنى العبادة'},
-      {id:4,title:'الدعاء والاستعانة بالله'},
-      {id:5,title:'أهمية الإخلاص'},
-      {id:6,title:'أمثلة من حياتنا اليومية'}
+    // ----- بيانات الدروس (20 درس مبسطة مستلهمة من مبادئ التوحيد) -----
+    const lessons = [
+      {id:1,title:'التوحيد: ما هو؟',text:'التوحيد يعني أن نؤمن بأن الله وحده هو المستحق للعبادة. هذا يعني أن نقول ونفعل ما يرضي الله فقط.' ,vocab:['التوحيد','العبادة','الإيمان']},
+      {id:2,title:'الله خالق كل شيء',text:'الله هو خالق السماوات والأرض وكل ما في الكون. هذا يعلمنا الاعتماد على الله.' ,vocab:['الخالق','الكون','الاعتماد']},
+      {id:3,title:'لا تشرك بالله',text:'الشرك يعني أن نعبد أو نطلب من غير الله ما لا يقدر عليه. المؤمن يعبد الله وحده.' ,vocab:['الشرك','توحيد','عبادة']},
+      {id:4,title:'لماذا نعبد الله؟',text:'نعبد الله لأنّه حكيم ورحيم ويعلم ما يصلح لنا. عبادتنا تقرّبنا منه.' ,vocab:['العبادة','رحمة','حكمة']},
+      {id:5,title:'معنى الإخلاص',text:'الإخلاص أن نعمل لله خالصًا لا نطلب مديح الناس، بل رضا الله هو الهدف.' ,vocab:['الإخلاص','النية','الصدق']},
+      {id:6,title:'الدعاء والتوكل',text:'عندما نريد مساعدة نتوجه إلى الله بالدعاء ونتوكل عليه في كل أمر.' ,vocab:['الدعاء','التوكل','الاعتماد']},
+      {id:7,title:'صفات الله الحسنى — الجزء 1',text:'له أسماء وصفات كثيرة، منها الرحمن والرحيم. هذه الأسماء تعلمنا محبة الله.' ,vocab:['الرحمن','الرحيم','الاسماء']},
+      {id:8,title:'صفات الله الحسنى — الجزء 2',text:'الله أيضًا قادر علي كل شيء، عليم بكل ما في القلوب. نطلب منه الهداية.' ,vocab:['القدرة','العلم','الهداية']},
+      {id:9,title:'الاعتقاد الصحيح',text:'المؤمن يؤمن بقلوب سليمات، ويعرف أن ما يأمرنا به الله خير لنا.' ,vocab:['الاعتقاد','القلب','السلوك']},
+      {id:10,title:'العبادات اليومية',text:'الصلاة، الدعاء، الشكر، الصدق كلّها عبادة تعلّمنا الاقتراب من الله.' ,vocab:['الصلاة','الشكر','الصدقة']},
+      {id:11,title:'التوبة والرجوع إلى الله',text:'إذا أخطأنا نرجع إلى الله بالتوبة ونطلب المغفرة، والله غفور رحيم.' ,vocab:['التوبة','المغفرة','الرجوع']},
+      {id:12,title:'الالتزام بالعلم',text:'نتعلم عن الله ونتحرى العلم الصحيح من الكتب الموثوقة وطلاب العلم الصادقين.' ,vocab:['العلم','المصدر','التحري']},
+      {id:13,title:'أثر التوحيد في السلوك',text:'التوحيد يجعلنا نتصرف بأخلاق حسنة لأننا نريد رضا الله.' ,vocab:['الأخلاق','النية','التصرف']},
+      {id:14,title:'الاستعانة بالله في المصاعب',text:'عندما نواجه صعوبة نلجأ إلى الله وندعو ونصبر.' ,vocab:['الصبر','الاستعانة','الدعاء']},
+      {id:15,title:'التعرف إلى آيات الله في الكون',text:'نشاهد آيات الله في الطبيعة ونذكره عليها، فهذا يقوّي الإيمان.' ,vocab:['الآيات','الطبيعة','التأمل']},
+      {id:16,title:'الابتعاد عن البدع',text:'البدع أمور دخلت على الدين لا أصل لها، وعلينا أن نتمسك بما ورد عن الله ورسوله.' ,vocab:['البدع','الأصل','التمسك']},
+      {id:17,title:'الدعوة بالقدوة الحسنة',text:'نُظهِر الخير بالقول والعمل ونكون قدوة حسنة للآخرين.' ,vocab:['القدوة','الحسنة','العمل']},
+      {id:18,title:'الشكر والرضا',text:'الشكر لله يزيد النعمة والرضا يجعل القلب مطمئناً.' ,vocab:['الشكر','الرضا','النعمة']},
+      {id:19,title:'التعامل مع الآخرين',text:'نحسن معاملة الناس ونساعدهم لأن هذا من توحيد العمل لله.' ,vocab:['المساعدة','الإحسان','التعامل']},
+      {id:20,title:'الخلاصة والتذكر',text:'نلخص ما تعلمناه ونذكّر أنفسنا بذكر الله والعمل الصالح.' ,vocab:['الذكر','الخلاصة','العمل']}
     ];
 
-    const storageKey = 'ua-tawheed-v2';
-    const state = { balance:0, awardedLessons:[], completed:[] };
+    // small question templates per lesson: 10 أسئلة; correct option at index 0 (we will shuffle later)
+    function generateQuestionsForLesson(idx){
+      const title = lessons[idx-1].title;
+      const baseQs = [
+        {q:`ماذا يعني ${title}?`,opts:["ما ذكرناه في الدرس","شيء آخر","لا أعرف","حظ" ]},
+        {q:`هل نعبد الله وحده؟`,opts:["نعم، نعبده وحده","لا، نعبد غيره","أحيانًا","حسب الظروف"]},
+        {q:`ماذا نفعل إذا احتجنا مساعدة؟`,opts:["ندعو الله ونستعين به","نلتجئ للأشياء فقط","نغضب","نترك الأمر"]},
+        {q:`هل الإخلاص مهم؟`,opts:["نعم مهم جدا","لا ليس مهم","فقط في العطلة","فقط في المدرسة"]},
+        {q:`متى نذكر الله؟`,opts:["قبل الطعام وبعده وعند الحاجة","مرة واحدة فقط","لا نذكره","عند النوم فقط"]},
+        {q:`هل الله خالق كل شيء؟`,opts:["نعم خلق كل شيء","لا خلق فقط بعض الأشياء","لا نعلم","الحظ فعل ذلك"]},
+        {q:`ماذا نفعل عند الخطأ؟`,opts:["نتوب ونطلب المغفرة","نتمادى ونفرح","نخبر الجميع","نختبئ"]},
+        {q:`هل نساعد الناس؟`,opts:["نساعد لأن ذلك يرضي الله","لا نساعد","حسب المزاج","فقط الأصدقاء"]},
+        {q:`هل نؤمن بصفات الله الحسنى؟`,opts:["نؤمن بها ونذكرها","لا نؤمن","نختار بعضها","لا نفكر بها"]},
+        {q:`هل العلم مفيد في الدين؟`,opts:["نعم نتحرى العلم الصحيح","لا العلم غير مفيد","نأخذ أي معلومة","العلم خطر"]}
+      ];
+      // rotate questions slightly per lesson to vary
+      return baseQs.map((qq,i)=>({q:qq.q.replace(title,title),opts:qq.opts,correct:0}));
+    }
 
-    function save(){ localStorage.setItem(storageKey, JSON.stringify(state)); }
-    function load(){ try{ const s=localStorage.getItem(storageKey); if(s){ Object.assign(state, JSON.parse(s)); } }catch(e){console.warn(e);} }
+    // shuffle helper
+    function shuffle(arr){
+      for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]] }
+      return arr;
+    }
 
-    // build lessons grid
+    // app state
+    const storageKey = 'tawheed_lessons_v1';
+    const app = {balance:0,awarded:[],currentLesson:null,slide:1,quizQuestions:[],quizAnswers:[]};
+
+    function save(){ localStorage.setItem(storageKey,JSON.stringify({balance:app.balance,awarded:app.awarded})); }
+    function load(){ try{ const s=localStorage.getItem(storageKey); if(s){ const obj=JSON.parse(s); app.balance=obj.balance||0; app.awarded=obj.awarded||[]; } }catch(e){console.warn(e);} }
+
+    // render lessons grid
     function renderLessons(){
       const grid = document.getElementById('lessonsGrid');
-      grid.innerHTML = lessonBank.map(l=>{
-        const done = state.awardedLessons.includes(l.id);
-        return `<div class="card">
-          <h3>${l.title}</h3>
-          <p>اختبار تفاعلي مكوّن من 10 أسئلة قصيرة.</p>
-          <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-start">
-            <button class="start-small" data-id="${l.id}">${done? 'أنهيت' : 'ابدأ الدرس'}</button>
-            ${done? '<div style="padding:8px;border-radius:8px;background:linear-gradient(90deg,#fff,#f6ffef);font-weight:800;color:#2a6;">+100 د.إ</div>':''}
-          </div>
-        </div>`;
+      grid.innerHTML = lessons.map(l=>{
+        const done = app.awarded.includes(l.id);
+        return `<div class="card"><h3>${l.title}</h3><p>${l.text.slice(0,80)}...</p><div style="margin-top:10px;display:flex;gap:10px;align-items:center"><button class="start-small" data-id="${l.id}">${done? 'تم الانتهاء' : 'ابدأ الدرس'}</button>${done?'<div style="background:#fff8e6;padding:6px 10px;border-radius:8px;font-weight:900;color:#b97300">+100 د.إ</div>':''}</div></div>`;
       }).join('');
-
-      // attach handlers
-      document.querySelectorAll('.start-small').forEach(btn=>btn.addEventListener('click',()=>{
-        const id = Number(btn.dataset.id);
-        startLessonById(id);
-      }));
+      document.querySelectorAll('.start-small').forEach(b=>b.addEventListener('click',e=>{ startLessonById(Number(e.currentTarget.dataset.id)); }));
     }
 
-    // Simple question generator: pick from a pool of templates
-    const qPool = [
-      {q:'ما معنى التوحيد؟',opts:['أن نعبد الله وحده','أن نعبد الناس','أن ننسى الله','أن نطلب من الصور'],correct:0},
-      {q:'لماذا نعبد الله؟',opts:['لأنه خالقنا','لأن الناس يفعلون','للمكسب فقط','لا سبب'],correct:0},
-      {q:'ما هي العبادة؟',opts:['كل ما يحبّه الله','الجلوس فقط','اللعب والمزاح','السرقة'],correct:0},
-      {q:'ماذا نفعل عند الحاجة؟',opts:['ندعو الله ونستعين به','نزور أحداً آخر','لا نفعل شيئاً','نبتعد'],correct:0},
-      {q:'ما معنى الإخلاص؟',opts:['العمل لله لا للناس','العمل للمدح','العمل للمال فقط','التظاهر'],correct:0},
-      {q:'ماذا نفعل قبل الطعام؟',opts:['نذكر الله ونشكره','ننتظر فقط','نترك الطبق','نركض'],correct:0},
-      {q:'من يستحق العبادة؟',opts:['الله وحده','النجوم','اللعبة','الصورة'],correct:0},
-      {q:'من يمنحنا الرزق؟',opts:['الله سبحانه','المال فقط','الصدفة','الحظ'],correct:0},
-      {q:'هل الدعاء مفيد؟',opts:['نعم، وهو عبادة','لا، ليس له فائدة','فقط للعب','غير معروف'],correct:0},
-      {q:'متى نكون مخلصين؟',opts:['عندما نعمل لوجه الله','عندما نريد المدح','عند الخداع','عند الكذب'],correct:0}
-    ];
+    // open lesson viewer
+    function startLessonById(id){
+      const lesson = lessons.find(x=>x.id===id);
+      if(!lesson) return;
+      app.currentLesson = id; app.slide = 1; app.quizQuestions = generateQuestionsForLesson(id); app.quizAnswers = Array(app.quizQuestions.length).fill(null);
+      document.getElementById('viewerSection').classList.remove('hidden'); document.getElementById('viewerSection').removeAttribute('aria-hidden');
+      renderSlide(); window.scrollTo({top:120,behavior:'smooth'});
+    }
 
-    // Create a 10-question quiz for a lesson (randomized non-repeating)
-    function buildQuizQuestions(){
-      const copy = [...qPool];
-      const questions = [];
-      for(let i=0;i<10;i++){
-        if(copy.length===0) copy.push(...qPool);
-        const idx = Math.floor(Math.random()*copy.length);
-        const item = copy.splice(idx,1)[0];
-        // shuffle options
-        const opts = item.opts.map((o,i)=>({o,i}));
-        for(let j= opts.length-1;j>0;j--){ const k=Math.floor(Math.random()*(j+1)); [opts[j],opts[k]]=[opts[k],opts[j]] }
-        // find new correct index
-        const correctOpt = opts.findIndex(x=>x.i===item.correct);
-        questions.push({q:item.q,opts:opts.map(x=>x.o),correct:correctOpt});
+    function renderSlide(){
+      const lesson = lessons.find(x=>x.id===app.currentLesson);
+      if(!lesson) return;
+      const slideTitle = document.getElementById('slideTitle');
+      const slideBody = document.getElementById('slideBody');
+      const vocabList = document.getElementById('vocabList');
+      const optionsList = document.getElementById('optionsList');
+      slideTitle.textContent = `${lesson.title} — شريحة ${app.slide} / 15`;
+      optionsList.innerHTML=''; vocabList.innerHTML='';
+      // slide 1: النص
+      if(app.slide===1){ slideBody.innerHTML = `<strong>النص المبسط:</strong><br><p style="margin-top:8px;">${lesson.text}</p>`; vocabList.innerHTML = `<div style="color:var(--muted);font-weight:800">المفردات ستظهر في الشريحة التالية</div>`; }
+      // slide 2: المفردات
+      else if(app.slide===2){ slideBody.innerHTML = `<strong>المفردات المهمة:</strong><br>`; lesson.vocab.forEach(v=>{ const d=document.createElement('div'); d.className='vocab-item'; d.textContent=v; vocabList.appendChild(d); }); }
+      // slides 3..12: أسئلة (10 أسئلة)
+      else if(app.slide>=3 && app.slide<=12){
+        const qIndex = app.slide - 3; const q = app.quizQuestions[qIndex]; slideBody.innerHTML = `<strong>سؤال ${qIndex+1}:</strong> <div style="margin-top:8px">${q.q}</div>`;
+        // build shuffled options each time with mapping to correct
+        const opts = shuffle(q.opts.map((o,i)=>({o,original:i}))).map((it,ii)=>({text:it.o,idx:ii,orig:it.original}));
+        // compute new correct index
+        const newCorrect = opts.findIndex(o=>o.orig===q.correct);
+        optionsList.innerHTML='';
+        opts.forEach((op,ii)=>{
+          const div = document.createElement('div'); div.className='opt'; div.tabIndex=0; div.textContent = op.text; div.addEventListener('click',()=>{
+            // mark
+            document.querySelectorAll('.opt').forEach(n=>n.classList.remove('correct','wrong'));
+            if(ii===newCorrect){ div.classList.add('correct'); app.quizAnswers[qIndex]=true; } else { div.classList.add('wrong'); app.quizAnswers[qIndex]=false; }
+          });
+          optionsList.appendChild(div);
+        });
       }
-      return questions;
+      // slide 13: مراجعة
+      else if(app.slide===13){
+        slideBody.innerHTML = `<strong>مراجعة سريعة:</strong><br><p style="margin-top:8px">هل تذكر النقاط الأساسية من الدرس؟ يمكنك الضغط "تقدم" للانتقال إلى الأسئلة النهائية أو الرجوع لمراجعة المفردات.</p>`;
+      }
+      // slide 14: اختبار نهائي (تلخيص 2 أسئلة من الأسئلة السابقة)
+      else if(app.slide===14){
+        slideBody.innerHTML = `<strong>اختبار التلخيص:</strong><br><p style="margin-top:8px">أجب عن السؤالين التاليين للتأكد من الفهم.</p>`;
+        // pick two random questions from the quizQuestions
+        const picks = [0,1].map(i=>app.quizQuestions[i]); optionsList.innerHTML='';
+        picks.forEach((q,qi)=>{
+          const block = document.createElement('div'); block.style.marginBottom='10px'; const qq = document.createElement('div'); qq.style.fontWeight='900'; qq.textContent = `سؤال${qi+1}: ${q.q}`; block.appendChild(qq);
+          q.opts.forEach((opt,oi)=>{ const d=document.createElement('div'); d.className='opt'; d.textContent = opt; d.addEventListener('click',()=>{ d.classList.toggle('correct'); }); block.appendChild(d); });
+          optionsList.appendChild(block);
+        });
+      }
+      // slide 15: انهاء الدرس
+      else if(app.slide===15){
+        // compute score from answers true count
+        const correctCount = app.quizAnswers.filter(v=>v===true).length;
+        slideBody.innerHTML = `<strong>انتهى الدرس!</strong><p style="margin-top:8px">لقد أجبت إجابات صحيحة على ${correctCount} من 10 أسئلة.</p><p style="margin-top:8px">اضغط تقدم لإكمال الدرس والحصول على المكافأة (إذا لم تحصل عليها سابقًا).</p>`;
+      }
+      updateProgressUI();
     }
 
-    // Quiz runtime state
-    let quiz = null; // {lessonId,questions,idx,score}
+    function updateProgressUI(){ document.getElementById('balanceTop').textContent = `${app.balance} د.إ`; }
 
-    function openQuizUI(){ document.getElementById('quizOverlay').classList.add('show'); renderQuiz(); }
-    function closeQuizUI(){ document.getElementById('quizOverlay').classList.remove('show'); quiz=null; }
-
-    function startLessonById(lessonId){
-      // if already awarded, still allow retake but no extra money
-      const lesson = lessonBank.find(x=>x.id===lessonId);
-      if(!lesson) return alert('درس غير موجود');
-      quiz = {lessonId,questions:buildQuizQuestions(),idx:0,score:0,answered:false};
-      document.getElementById('quizTitle').textContent = lesson.title;
-      openQuizUI();
-    }
-
-    function renderQuiz(){
-      if(!quiz) return;
-      const q = quiz.questions[quiz.idx];
-      document.getElementById('quizProgress').textContent = `${quiz.idx+1} / ${quiz.questions.length}`;
-      document.getElementById('questionText').textContent = q.q;
-      const answersList = document.getElementById('answersList'); answersList.innerHTML='';
-      q.opts.forEach((opt,i)=>{
-        const btn = document.createElement('div'); btn.className='opt'; btn.tabIndex=0; btn.textContent = opt;
-        btn.addEventListener('click',()=>selectOption(i,btn));
-        answersList.appendChild(btn);
-      });
-      document.getElementById('quizScore').textContent = `الدرجات: ${quiz.score}`;
-      // next button
-      document.getElementById('nextBtn').textContent = quiz.idx+1===quiz.questions.length ? 'إنهاء' : 'التالي';
-    }
-
-    function selectOption(index,btnElement){
-      if(!quiz || quiz.answered) return; quiz.answered=true;
-      const q = quiz.questions[quiz.idx];
-      const nodes = Array.from(document.querySelectorAll('.opt'));
-      // mark correct/wrong
-      nodes.forEach((n,ii)=>{ n.classList.remove('correct','wrong'); n.style.pointerEvents='none'; });
-      if(index===q.correct){ btnElement.classList.add('correct'); quiz.score+=10; }
-      else{ btnElement.classList.add('wrong'); nodes[q.correct].classList.add('correct'); }
-      document.getElementById('quizScore').textContent = `الدرجات: ${quiz.score}`;
-    }
-
-    document.getElementById('nextBtn').addEventListener('click',()=>{
-      if(!quiz) return;
-      // if not answered, treat as wrong and move on
-      quiz.answered=false;
-      if(quiz.idx+1 < quiz.questions.length){ quiz.idx++; renderQuiz(); }
-      else{ finishQuiz(); }
+    // navigation
+    document.getElementById('btnNext').addEventListener('click',()=>{
+      if(!app.currentLesson) return alert('اختر درساً أولاً أو اضغط "تعلم درس"');
+      if(app.slide < 15){ app.slide++; renderSlide(); }
+      else { // slide 15 next -> finish and award
+        finishLesson(app.currentLesson);
+      }
+    });
+    document.getElementById('btnBack').addEventListener('click',()=>{
+      if(!app.currentLesson) return; if(app.slide>1){ app.slide--; renderSlide(); } else { // close viewer
+        closeViewer(); }
     });
 
-    document.getElementById('quitQuiz').addEventListener('click',()=>{
-      if(confirm('هل تريد الخروج من الاختبار؟ التقدم غير محفوظ.')) closeQuizUI();
-    });
+    function closeViewer(){ document.getElementById('viewerSection').classList.add('hidden'); document.getElementById('viewerSection').setAttribute('aria-hidden','true'); app.currentLesson=null; app.slide=1; }
 
-    function finishQuiz(){
-      const lessonId = quiz.lessonId;
-      const earned = 100;
-      // award only once per lesson
-      const firstTime = !state.awardedLessons.includes(lessonId);
-      if(firstTime){ state.balance += earned; state.awardedLessons.push(lessonId); }
-      // save completed array
-      if(!state.completed.includes(lessonId)) state.completed.push(lessonId);
-      save(); updateUI();
-      // show reward modal
-      document.getElementById('rewardTitle').textContent = 'مبروك يا بطل!';
-      document.getElementById('rewardText').textContent = firstTime ? `لقد ربحت ${earned} د.إ` : 'لقد أنهيت الدرس سابقًا — لا يوجد رصيد إضافي';
-      document.getElementById('rewardModal').classList.add('show');
-      closeQuizUI();
+    // finish lesson and award
+    function finishLesson(lessonId){
+      const already = app.awarded.includes(lessonId);
+      if(!already){ app.balance += 100; app.awarded.push(lessonId); save(); updateProgressUI(); showReward(true); }
+      else { showReward(false); }
+      renderLessons();
     }
 
-    document.getElementById('closeReward').addEventListener('click',()=>{
-      document.getElementById('rewardModal').classList.remove('show'); renderLessons();
+    function showReward(firstTime){ document.getElementById('rewardText').textContent = firstTime? 'لقد ربحت 100 د.إ' : 'لقد أنهيت الدرس سابقًا — لا يوجد رصيد إضافي'; document.getElementById('rewardModal').classList.add('show'); }
+    document.getElementById('closeReward').addEventListener('click',()=>{ document.getElementById('rewardModal').classList.remove('show'); });
+
+    // top open lesson button: open first unawarded or list
+    document.getElementById('openLessonBtn').addEventListener('click',()=>{
+      // choose first lesson not yet awarded
+      const next = lessons.find(l=>!app.awarded.includes(l.id)); if(next){ startLessonById(next.id); } else { alert('لقد أكملت كل الدروس! يمكنك إعادة المراجعة متى شئت.'); }
     });
 
-    // Start Lesson button top-right uses next uncompleted lesson or asks to pick
-    document.getElementById('startLessonBtn').addEventListener('click',()=>{
-      // find first lesson not yet awarded
-      const next = lessonBank.find(l=>!state.awardedLessons.includes(l.id));
-      if(next){ startLessonById(next.id); }
-      else{ if(confirm('لقد أنهيت كل الدروس. هل تريد إعادة محاولة درس سابق؟')) startLessonById(lessonBank[0].id); }
-    });
-
-    // start by loading saved state
-    function updateUI(){ document.getElementById('balanceTop').textContent = `${state.balance} د.إ`; renderLessons(); }
-    load(); updateUI();
-
-    // click on lessons grid handled via renderLessons
+    // init
+    load(); renderLessons(); updateProgressUI();
   </script>
 </body>
 </html>

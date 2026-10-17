@@ -185,7 +185,7 @@
     .star.s3{top:48px; right:24px; transform:scale(.9)}
 
     .stats{
-      display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-top:24px;
+      display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-top:24px;
     }
     .stat{
       background:#fff; border-radius:20px; padding:18px 16px; box-shadow:var(--shadow);
@@ -454,6 +454,18 @@
       color:var(--muted); font-size:.95rem; margin-top:8px; font-weight:700;
     }
 
+    /* Reward modal */
+    .reward-modal{
+      position:fixed; inset:0; display:grid; place-items:center; background:rgba(0,0,0,0.35); z-index:2000; opacity:0; pointer-events:none; transition:opacity .18s ease;
+    }
+    .reward-modal.show{opacity:1; pointer-events:auto}
+    .reward-card{
+      background:linear-gradient(135deg,#fff,#fffbf0); padding:22px; border-radius:16px; box-shadow:0 18px 40px rgba(10,40,30,0.18); text-align:center; width:min(520px,90%);
+    }
+    .reward-card h3{margin:0 0 6px; color:var(--gold-deep)}
+    .reward-card p{margin:6px 0 14px; font-weight:800}
+    .reward-card .close-btn{background:var(--green); color:#fff; border:none; padding:10px 16px; border-radius:10px; font-weight:900; cursor:pointer}
+
     @media (max-width: 880px){
       .lesson-grid, .games-grid, .stats, .results-metrics, .lesson-content{
         grid-template-columns:1fr;
@@ -517,6 +529,10 @@
               <div class="stat">
                 <strong id="badgesStat">0</strong>
                 <span>أوسمة</span>
+              </div>
+              <div class="stat">
+                <strong id="balanceStat">0 د.إ</strong>
+                <span>رصيدك (درهم)</span>
               </div>
             </div>
           </div>
@@ -643,6 +659,15 @@
       </div>
     </section>
   </main>
+
+  <!-- Reward modal -->
+  <div class="reward-modal" id="rewardModal" aria-hidden="true">
+    <div class="reward-card" role="dialog" aria-modal="true">
+      <h3 id="rewardTitle">مبروك!</h3>
+      <p id="rewardText">ربحت 100 د.إ</p>
+      <button class="close-btn" id="closeReward">أغلق</button>
+    </div>
+  </div>
 
   <script>
     const lessons = [
@@ -789,375 +814,4 @@
         content: `
           <div class="lesson-hero">
             <div class="lesson-badge">درس 4</div>
-            <button class="btn primary" onclick="speakLesson('الدعاء هو أن نطلب من الله الهداية، العون، والعافية، والسداد. والاستعانة بالله معناها أن نطلب المساعدة منه وحده، مع الإيمان أنه يقودنا ويعطي الخير.')">🎧 استمع إلى الدرس</button>
-          </div>
-          <div class="lesson-content">
-            <div class="lesson-text">
-              <h3>الدعاء والاستعانة بالله</h3>
-              <p>عندما نحتاج إلى مساعدة أو نريد أن نكون أقرب إلى الله، نتوجه إليه بالدعاء، وندعوه أن يهدينا ويشرح صدورنا.</p>
-              <p>ومن علامات التوحيد أن نستعين بالله في كل شيء، من الواجبات الدراسية، إلى الصبر في المدرسة، إلى السلامة في الطريق.</p>
-              <p>مثال: اللطف، والرحمة، والبركة، كلها من الله.</p>
-            </div>
-            <div class="illustration">
-              <div class="bubble a">اللهم اهدني</div>
-              <div class="mini-figure">
-                <div class="head"></div>
-                <div class="body"></div>
-                <div class="hand left"></div>
-                <div class="hand right"></div>
-                <div class="heart"></div>
-              </div>
-              <div class="bubble b">أستعين بالله</div>
-            </div>
-          </div>
-          <div class="quiz-box">
-            <h4>سؤال تفاعلي</h4>
-            <div class="question">ماذا نفعل عندما نحتاج إلى مساعدة أو هداية؟</div>
-            <div class="answers">
-              <button class="option" data-correct="true">ندعو الله ونستعين به</button>
-              <button class="option" data-correct="false">نخفي المشكلة</button>
-              <button class="option" data-correct="false">نطلب من غير الله</button>
-              <button class="option" data-correct="false">ننعمل بصمت</button>
-            </div>
-            <div class="qa-meta">
-              <div class="feedback" id="feedback-4"></div>
-              <button class="btn secondary" onclick="nextLessonOrFinish(4)">التالي</button>
-            </div>
-          </div>
-        `
-      },
-      {
-        id: 5,
-        title: "أهمية الإخلاص لله",
-        icon: "💛",
-        summary: "الإخلاص هو أن يكون العمل خالصًا لله، لا للثناء أو المظاهر.",
-        content: `
-          <div class="lesson-hero">
-            <div class="lesson-badge">درس 5</div>
-            <button class="btn primary" onclick="speakLesson('الإخلاص هو أن يكون العمل كله لله، ليرضاه، لا ليرضى الناس. إن كان العمل صحيحًا، فالإخلاص يجعل القلوب طاهرة، ويجعل العمل ينفع في الدنيا والآخرة.')">🎧 استمع إلى الدرس</button>
-          </div>
-          <div class="lesson-content">
-            <div class="lesson-text">
-              <h3>لماذا الإخلاص مهم؟</h3>
-              <p>الإخلاص يعني أن نعمل الخير لله، ولأننا نحب الله، لا لأن الناس يشاهدوننا أو يمدحوننا.</p>
-              <p>مثال: إذا المعلّم يرى الطفل يمد يد العون دون أن يطلب أحدٌ الشكر، فهذا من باب الإخلاص.</p>
-              <p>وعندما يكون الإخلاص في القلب، يصبح العمل أصفى وأحسن.</p>
-            </div>
-            <div class="illustration">
-              <div class="bubble a">أعمل لوجه الله</div>
-              <div class="mini-figure">
-                <div class="head"></div>
-                <div class="body"></div>
-                <div class="hand left"></div>
-                <div class="hand right"></div>
-                <div class="heart"></div>
-              </div>
-              <div class="bubble b">أحسن بصدق</div>
-            </div>
-          </div>
-          <div class="quiz-box">
-            <h4>سؤال تفاعلي</h4>
-            <div class="question">ما معنى الإخلاص؟</div>
-            <div class="answers">
-              <button class="option" data-correct="true">أن نعمل لله لا للناس</button>
-              <button class="option" data-correct="false">أن نعمل فقط لكي يمدحنا أحد</button>
-              <button class="option" data-correct="false">أن نكذب</button>
-              <button class="option" data-correct="false">أن ننسى الله</button>
-            </div>
-            <div class="qa-meta">
-              <div class="feedback" id="feedback-5"></div>
-              <button class="btn secondary" onclick="nextLessonOrFinish(5)">التالي</button>
-            </div>
-          </div>
-        `
-      },
-      {
-        id: 6,
-        title: "أمثلة من حياتنا اليومية",
-        icon: "🌟",
-        summary: "نستطيع تطبيق التوحيد في كل لحظة من حياتنا.",
-        content: `
-          <div class="lesson-hero">
-            <div class="lesson-badge">درس 6</div>
-            <button class="btn primary" onclick="speakLesson('في حياتنا اليومية نرى أمثلة للتوحيد: نذكر الله قبل الطعام، ندعو الله عند الحاجة، نساعد الآخرين، ونصلي مع الإخلاص، ونتوب إلى الله عندما نخطئ. هذه الأعمال تقربنا إلى الله وتشعرنا بالطمأنينة.')">🎧 استمع إلى الدرس</button>
-          </div>
-          <div class="lesson-content">
-            <div class="lesson-text">
-              <h3>أمثلة عملية من الحياة</h3>
-              <p>عند تناول الطعام: نتذكر الله ونشكره.</p>
-              <p>عند الخوف أو المرض: ندعو الله ونتوكل عليه.</p>
-              <p>عند الخلاف مع الأخ أو الأخت: نحسن الكلام ونصبر.</p>
-              <p>عند القيام بواجبات المدرسة: نحافظ على الصدق والإخلاص.</p>
-              <p>كل عمل يذكرنا بالله ويقربنا إليه هو في الحقيقة تطبيق للتوحيد.</p>
-            </div>
-            <div class="illustration">
-              <div class="bubble a">شكراً لله</div>
-              <div class="mini-figure">
-                <div class="head"></div>
-                <div class="body"></div>
-                <div class="hand left"></div>
-                <div class="hand right"></div>
-                <div class="heart"></div>
-              </div>
-              <div class="bubble b">أحسن وأعطي</div>
-            </div>
-          </div>
-          <div class="quiz-box">
-            <h4>سؤال تفاعلي</h4>
-            <div class="question">أيٌّ من هذه الأفعال يعبر عن التوحيد؟</div>
-            <div class="answers">
-              <button class="option" data-correct="true">الدعاء إلى الله والاستعانة به</button>
-              <button class="option" data-correct="false">طلب المساعدة من الصور</button>
-              <button class="option" data-correct="false">الاعتماد على الحظ فقط</button>
-              <button class="option" data-correct="false">الإهمال في الطاعة</button>
-            </div>
-            <div class="qa-meta">
-              <div class="feedback" id="feedback-6"></div>
-              <button class="btn secondary" onclick="nextLessonOrFinish(6)">عرض النتيجة</button>
-            </div>
-          </div>
-        `
-      }
-    ];
-
-    const state = {
-      currentLesson: 0,
-      points: 0,
-      stars: 0,
-      badges: [],
-      soundOn: true,
-      completed: []
-    };
-
-    const storageKey = 'taheel-journey-save-v1';
-
-    function saveState(){
-      localStorage.setItem(storageKey, JSON.stringify({
-        points: state.points, stars: state.stars, badges: state.badges, completed: state.completed
-      }));
-    }
-
-    function loadState(){
-      try{
-        const raw = localStorage.getItem(storageKey);
-        if(!raw) return;
-        const data = JSON.parse(raw);
-        state.points = data.points || 0;
-        state.stars = data.stars || 0;
-        state.badges = data.badges || [];
-        state.completed = data.completed || [];
-      }catch(e){
-        console.warn('فشل في تحميل التقدم:', e);
-      }
-    }
-
-    function renderLessonGrid(){
-      const grid = document.getElementById('lessonGrid');
-      grid.innerHTML = lessons.map((lesson, index) => {
-        const done = state.completed.includes(lesson.id);
-        return `
-          <div class="card" onclick="openLesson(${index})" style="cursor:pointer;">
-            <div class="chip">${done ? 'مكتمل ✓' : 'مرحلة ' + (index + 1)}</div>
-            <div class="icon">${lesson.icon}</div>
-            <h3>${lesson.title}</h3>
-            <p>${lesson.summary}</p>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function openLesson(index){
-      state.currentLesson = index;
-      const view = document.getElementById('lessonView');
-      view.classList.add('active');
-      view.innerHTML = lessons[index].content;
-      attachAnswerHandlers();
-      window.scrollTo({ top: document.getElementById('lessonsSection').offsetTop - 40, behavior: 'smooth' });
-    }
-
-    function attachAnswerHandlers(){
-      const options = document.querySelectorAll('.option');
-      options.forEach((btn) => {
-        btn.addEventListener('click', () => handleAnswer(btn));
-      });
-    }
-
-    function handleAnswer(button){
-      const isCorrect = button.dataset.correct === 'true';
-      const parent = button.closest('.answers');
-      parent.querySelectorAll('.option').forEach((item) => {
-        item.disabled = true;
-        item.style.opacity = '0.9';
-      });
-
-      if (isCorrect) {
-        button.classList.add('correct');
-        const feedback = document.querySelector('.feedback');
-        if (feedback) {
-          feedback.textContent = 'أحسنت! هذا جواب صحيح ⭐';
-          feedback.classList.add('success');
-          feedback.classList.add('show');
-        }
-        if (!state.completed.includes(lessons[state.currentLesson].id)) {
-          state.completed.push(lessons[state.currentLesson].id);
-        }
-        state.points += 10;
-        state.stars += 1;
-        updateBadges();
-        saveState();
-      } else {
-        button.classList.add('wrong');
-        const correct = [...parent.querySelectorAll('.option')].find(el => el.dataset.correct === 'true');
-        if (correct) correct.classList.add('correct');
-        const feedback = document.querySelector('.feedback');
-        if (feedback) {
-          feedback.textContent = 'ليس هذا الجواب الصحيح، جرّب مرة أخرى أو تابع الدرس.';
-          feedback.classList.add('error');
-          feedback.classList.add('show');
-        }
-      }
-      refreshStats();
-      renderLessonGrid();
-      renderProgress();
-    }
-
-    function updateBadges(){
-      const list = [];
-      if (state.points >= 30) list.push('بطل التوحيد');
-      if (state.stars >= 5) list.push('النجم الذهبي');
-      if (state.completed.length >= lessons.length) list.push('مستكشف الطريق');
-      state.badges = list;
-    }
-
-    function renderProgress(){
-      const total = lessons.length;
-      const percent = Math.min(100, Math.round((state.completed.length / total) * 100));
-      document.getElementById('progressFill').style.width = percent + '%';
-      document.getElementById('progressText').textContent = percent + '% مكتمل';
-      const badgeList = document.getElementById('badgeList');
-      if (state.badges.length === 0) {
-        badgeList.innerHTML = '<div class="badge">ابدأ رحلتك</div>';
-      } else {
-        badgeList.innerHTML = state.badges.map(b => `<div class="badge">${b}</div>`).join('');
-      }
-    }
-
-    function refreshStats(){
-      document.getElementById('pointsStat').textContent = state.points;
-      document.getElementById('starsStat').textContent = state.stars;
-      document.getElementById('badgesStat').textContent = state.badges.length;
-      document.getElementById('finalPoints').textContent = state.points;
-      document.getElementById('finalStars').textContent = state.stars;
-      document.getElementById('finalBadges').textContent = state.badges.length;
-    }
-
-    function nextLessonOrFinish(index){
-      if (index < lessons.length){
-        openLesson(index);
-      } else {
-        showFinalResults();
-      }
-    }
-
-    function showFinalResults(){
-      const results = document.getElementById('finalResults');
-      results.classList.add('show');
-      const total = lessons.length * 10;
-      const percent = Math.round((state.points / total) * 100);
-      let message = 'أحسنت! استمر في التعلم';
-      if (percent >= 80) message = 'ممتاز! أنت بطل التوحيد الحقيقي ⭐';
-      else if (percent >= 50) message = 'جيد جدًا! أنت في الطريق الصحيح';
-      else if (percent < 50) message = 'لا تيأس، كل درس يضيف نورًا إلى قلبك';
-      document.getElementById('resultMessage').textContent = `${message} — نسبة الإنجاز: ${percent}%`;
-      refreshStats();
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-
-    function speakLesson(text){
-      if (!state.soundOn) return;
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'ar-SA';
-        utterance.rate = 0.9;
-        utterance.pitch = 1.1;
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(utterance);
-      }
-    }
-
-    function toggleSound(){
-      state.soundOn = !state.soundOn;
-      const btn = document.getElementById('soundToggleBtn');
-      btn.textContent = state.soundOn ? '🔊 الصوت: مفعل' : '🔇 الصوت: مكتوم';
-      btn.style.opacity = state.soundOn ? '1' : '.75';
-    }
-
-    document.getElementById('startJourney').addEventListener('click', () => openLesson(0));
-    document.getElementById('showLessons').addEventListener('click', () => {
-      document.getElementById('lessonsSection').scrollIntoView({ behavior: 'smooth' });
-    });
-    document.getElementById('progressBtn').addEventListener('click', () => {
-      const panel = document.getElementById('finalResults');
-      panel.classList.add('show');
-      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    });
-    document.getElementById('soundToggleBtn').addEventListener('click', toggleSound);
-
-    document.getElementById('aiForm').addEventListener('submit', async function(e){
-      e.preventDefault();
-      const question = document.getElementById('aiInput').value.trim();
-      const chat = document.getElementById('assistantChat');
-      const status = document.getElementById('aiStatus');
-
-      if (!question) {
-        chat.textContent = 'اكتب سؤالًا صغيرًا حتى أساعدك.';
-        return;
-      }
-
-      chat.textContent = 'أفكّر في جوابك الآن...';
-      status.textContent = 'جارٍ الاتصال بالخدمة...';
-
-      try {
-        const response = await fetch('/api/teacher', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            question,
-            ageGroup: 'child',
-            subject: 'التوحيد'
-          })
-        });
-
-        if (!response.ok) {
-          throw new Error('No AI service configured');
-        }
-
-        const data = await response.json();
-        chat.textContent = data.answer || 'عذراً، لا يوجد جواب حاليًا.';
-        status.textContent = 'تمت الإجابة عبر خدمة ذكاء اصطناعي آمنة على الخادم.';
-      } catch (err) {
-        chat.textContent = `
-سأشرح لك بعبارة سهلة:
-- التوحيد معناها أن نعبد الله وحده، ولا نطلب المساعدة إلا منه.
-- مثال: إذا طلبت من أخيك شيءً ما، فلا بد من أن تذكر الله أولًا، وأن تستعين به في الصبر والهدى.
-- سؤال بسيط الآن: ما الذي نفعله عندما نحتاج إلى المساعدة؟ 
-        `;
-        status.textContent = 'الخدمة غير متاحة الآن. هذه الرسالة توضح عدم وجود ذكاء اصطناعي حقيقي حاليًا، وتدفع الطفل نحو الفهم البسيط دون ادعاء مزيف.';
-      }
-    });
-
-    function init(){
-      loadState();
-      updateBadges();
-      renderProgress();
-      renderLessonGrid();
-      refreshStats();
-      if (state.completed.length === 0) {
-        document.getElementById('badgeList').innerHTML = '<div class="badge">ابدأ رحلتك</div>';
-      }
-    }
-
-    init();
-  </script>
-</body>
-</html>
+            <button class="btn primary" onclick="speakLesson('الدعاء هو أن نطلب من الله الهداية، العون، والعافية، والسداد. والاستعانة بالله معناها أن نطلب المساعدة منه وحده، مع الإيمان أنه يقودنا ويعطي الخير.')">🎧 استمع إل... (truncated for brevity)

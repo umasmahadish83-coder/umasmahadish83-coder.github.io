@@ -1,817 +1,267 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>رحلة أبطال التوحيد</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>رحلة أبطال التوحيد — دروس تفاعلية</title>
   <style>
-    :root{
-      --green:#3bb36e;
-      --green-deep:#1d7c52;
-      --blue:#3a92d6;
-      --blue-deep:#1f5f9e;
-      --gold:#f7c95d;
-      --gold-deep:#d8a840;
-      --cream:#fffaf1;
-      --bg:#eefaf4;
-      --card:#ffffff;
-      --text:#1b2d2a;
-      --muted:#6d7d7b;
-      --danger:#e56c5d;
-      --shadow:0 12px 28px rgba(20, 50, 40, 0.14);
-    }
-
+    :root{--green:#3bb36e;--blue:#3a92d6;--gold:#f7c95d;--bg:#f6fffb;--card:#fff;--text:#123;--muted:#476;}
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family: "Segoe UI", Tahoma, sans-serif;
-      background:
-        radial-gradient(circle at top, #f3fff7 0%, #edf8f0 25%, #eaf4ff 100%);
-      color:var(--text);
-      line-height:1.7;
-    }
+    body{margin:0;font-family:Segoe UI, Tahoma, sans-serif;background:linear-gradient(180deg,#f7fff8,#eef7ff);color:var(--text);direction:rtl}
+    header{background:linear-gradient(135deg,var(--green),var(--blue));color:#fff;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
+    .brand{font-weight:900;font-size:1.1rem;display:flex;align-items:center;gap:12px}
+    .container{width:min(1100px,94%);margin:20px auto}
 
-    a{text-decoration:none; color:inherit}
-    button,input,select{font:inherit}
-    .hidden{display:none !important}
+    /* Fixed lesson button (top-right) */
+    .fixed-lesson{
+      position:fixed;top:18px;right:18px;z-index:9999;display:flex;flex-direction:column;gap:10px;align-items:flex-end
+    }
+    .lesson-btn{background:linear-gradient(135deg,var(--gold),#ffd36a);border:none;padding:12px 16px;border-radius:12px;font-weight:900;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+    .balance-badge{background:#fff;padding:8px 12px;border-radius:999px;font-weight:900;color:var(--green);box-shadow:0 8px 20px rgba(30,80,50,.08)}
 
-    .container{
-      width:min(1180px, 90%);
-      margin:0 auto;
-    }
+    /* Main area: show list of available lessons (compact cards) */
+    .lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:18px}
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 10px 30px rgba(15,60,50,.06);border:1px solid rgba(20,80,70,.04)}
+    .card h3{margin:6px 0 8px}
+    .card p{color:var(--muted);margin:0}
+    .start-small{background:linear-gradient(135deg,var(--green),var(--blue));color:#fff;border:none;padding:8px 12px;border-radius:10px;font-weight:800;cursor:pointer}
 
-    .topbar{
-      background: linear-gradient(135deg, var(--green), var(--blue));
-      color:#fff;
-      position:sticky;
-      top:0;
-      z-index:50;
-      box-shadow:0 6px 18px rgba(27,90,72,0.15);
-    }
-    .topbar-inner{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:14px 0;
-      gap:12px;
-    }
-    .brand{
-      font-weight:900; font-size:1.2rem; letter-spacing:.2px;
-      display:flex; align-items:center; gap:10px;
-    }
-    .brand-badge{
-      width:40px; height:40px; border-radius:50%;
-      background:rgba(255,255,255,.18);
-      display:grid; place-items:center;
-      font-size:1.2rem;
-      border:2px solid rgba(255,255,255,.3);
-    }
-    .top-actions{
-      display:flex; gap:10px; align-items:center;
-    }
-    .mini-btn{
-      border:none; background:rgba(255,255,255,.12); color:#fff;
-      border-radius:999px; padding:10px 14px; cursor:pointer;
-      font-weight:700; transition:.2s;
-    }
-    .mini-btn:hover{transform:translateY(-1px)}
-    .mini-btn.primary{
-      background:#fff; color:var(--green-deep);
-    }
-
-    .hero{
-      padding:44px 0 22px;
-    }
-    .hero-card{
-      background:linear-gradient(135deg, rgba(255,255,255,.9), rgba(239,255,246,.9));
-      border-radius:30px;
-      box-shadow:var(--shadow);
-      padding:28px;
-      border:1px solid rgba(42,114,93,.12);
-      position:relative;
-      overflow:hidden;
-    }
-    .hero-card:before{
-      content:"";
-      position:absolute;
-      width:220px; height:220px;
-      background:radial-gradient(circle, rgba(247,201,93,.2), transparent 70%);
-      top:-40px; right:-20px;
-    }
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.2fr .8fr;
-      gap:18px;
-      align-items:center;
-    }
-    .eyebrow{
-      display:inline-block; background:rgba(59,179,110,.11);
-      color:var(--green-deep); font-weight:800; padding:8px 14px;
-      border-radius:999px; margin-bottom:14px;
-    }
-    h1{
-      font-size:clamp(2.2rem, 5vw, 4rem);
-      line-height:1.15;
-      margin:0 0 18px;
-      letter-spacing:-1px;
-    }
-    .subtext{
-      font-size:1.1rem; color:var(--muted); max-width:680px;
-    }
-    .hero-actions{
-      display:flex; gap:14px; flex-wrap:wrap; margin-top:22px;
-    }
-    .btn{
-      border:none; cursor:pointer; border-radius:18px; padding:16px 24px;
-      font-weight:900; transition:.2s; box-shadow:var(--shadow);
-    }
-    .btn:hover{transform:translateY(-2px)}
-    .btn.primary{
-      background:linear-gradient(135deg, var(--green), var(--blue));
-      color:#fff;
-    }
-    .btn.secondary{
-      background:linear-gradient(135deg, #fff, #f2f8ff);
-      color:var(--blue-deep); border:1px solid rgba(35,90,148,.15);
-    }
-
-    .hero-art{
-      display:grid; place-items:center; min-height:320px;
-      position:relative;
-    }
-    .character{
-      position:relative; width:260px; height:260px;
-      background:linear-gradient(180deg, #fdf7d2, #f4efcf);
-      border-radius:38% 38% 42% 42%;
-      box-shadow:inset 0 -18px 0 rgba(255,255,255,.2);
-      border:3px solid rgba(243,197,85,.6);
-      overflow:hidden;
-    }
-    .character .head{
-      position:absolute; width:110px; height:110px; background:#f8d9b5; border-radius:50%;
-      top:42px; left:75px; border:3px solid rgba(0,0,0,.08);
-    }
-    .character .hair{
-      position:absolute; width:120px; height:40px; background:#5d4033; border-radius:18px 18px 10px 10px;
-      top:28px; left:70px;
-    }
-    .character .eye{
-      position:absolute; width:12px; height:12px; background:#1d1d1d; border-radius:50%;
-      top:88px;
-    }
-    .character .eye.left{left:108px}
-    .character .eye.right{left:140px}
-    .character .smile{
-      position:absolute; width:30px; height:18px; border-bottom:4px solid #d76e49; border-radius:0 0 16px 16px;
-      top:112px; left:116px;
-    }
-    .character .body{
-      position:absolute; width:150px; height:120px; background:linear-gradient(180deg, var(--green), var(--blue));
-      border-radius:30px 30px 18px 18px; bottom:26px; left:55px;
-      box-shadow:inset 0 -18px 0 rgba(255,255,255,.15);
-    }
-    .character .arm{
-      position:absolute; width:52px; height:20px; background:#f8d9b5; border-radius:20px;
-      top:150px;
-    }
-    .character .arm.left{left:30px; transform:rotate(22deg)}
-    .character .arm.right{left:178px; transform:rotate(-22deg)}
-    .star{
-      position:absolute; width:24px; height:24px; background:linear-gradient(135deg, #ffd76c, #ffb700);
-      clip-path: polygon(50% 0%, 61% 34%, 100% 34%, 69% 56%, 80% 100%, 50% 72%, 20% 100%, 31% 56%, 0% 34%, 39% 34%);
-      box-shadow:0 0 14px rgba(255,195,60,.7);
-    }
-    .star.s1{top:42px; left:25px;}
-    .star.s2{bottom:60px; left:18px; transform:scale(.8)}
-    .star.s3{top:48px; right:24px; transform:scale(.9)}
-
-    .stats{
-      display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-top:24px;
-    }
-    .stat{
-      background:#fff; border-radius:20px; padding:18px 16px; box-shadow:var(--shadow);
-      border:1px solid rgba(20,50,40,.06);
-      text-align:center;
-    }
-    .stat strong{
-      display:block; font-size:1.8rem; color:var(--green-deep); margin-bottom:6px;
-    }
-    .stat span{color:var(--muted); font-weight:700;}
-
-    .section{
-      padding:32px 0;
-    }
-    .section h2{
-      margin:0 0 18px; font-size:clamp(1.8rem, 4vw, 2.8rem);
-    }
-    .lesson-grid{
-      display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;
-    }
-    .card{
-      background:#fff; border-radius:24px; padding:20px; box-shadow:var(--shadow);
-      border:1px solid rgba(30,60,44,.08);
-      position:relative;
-      overflow:hidden;
-    }
-    .card .icon{
-      width:56px; height:56px; border-radius:16px;
-      display:grid; place-items:center; font-size:2rem;
-      background:linear-gradient(135deg, rgba(59,179,110,.15), rgba(58,146,214,.12));
-      margin-bottom:12px;
-    }
-    .card h3{
-      margin:8px 0 8px; font-size:1.4rem;
-    }
-    .card p{margin:0; color:var(--muted);}
-    .card .chip{
-      position:absolute; top:18px; left:18px; background:rgba(247,201,93,.15);
-      color:#845e00; border-radius:999px; padding:6px 10px; font-size:.75rem; font-weight:800;
-    }
-
-    .progress-wrap{
-      background:#fff; border-radius:26px; padding:18px 20px; box-shadow:var(--shadow);
-      margin-top:22px;
-    }
-    .progress-head{
-      display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;
-    }
-    .progress-bar{
-      width:100%; height:18px; background:#edf3ef; border-radius:999px; overflow:hidden;
-    }
-    .progress-fill{
-      height:100%; width:0%; background:linear-gradient(90deg, var(--green), var(--blue), var(--gold));
-      border-radius:999px; transition:width .35s ease;
-    }
-    .badge-list{
-      display:flex; flex-wrap:wrap; gap:12px; margin-top:12px;
-    }
-    .badge{
-      background:linear-gradient(135deg, #fff8dc, #fff3c4);
-      color:#7d5d00; border:1px solid rgba(247,201,93,.5); border-radius:999px;
-      padding:9px 12px; font-weight:800;
-    }
-
-    .lesson-shell{
-      display:none;
-    }
-    .lesson-shell.active{
-      display:block;
-      animation: fade .25s ease;
-    }
-    @keyframes fade{
-      from{opacity:0; transform:translateY(8px)}
-      to{opacity:1; transform:translateY(0)}
-    }
-
-    .lesson-panel{
-      background:linear-gradient(135deg, #fff, #f5fbff);
-      border-radius:30px; box-shadow:var(--shadow);
-      padding:26px; border:1px solid rgba(22,95,138,.08);
-    }
-    .lesson-hero{
-      display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap;
-      margin-bottom:16px;
-    }
-    .lesson-badge{
-      background:linear-gradient(135deg, rgba(59,179,110,.13), rgba(58,146,214,.12));
-      color:var(--green-deep); padding:8px 12px; border-radius:999px; font-weight:900;
-    }
-    .lesson-content{
-      display:grid; grid-template-columns:1.2fr .8fr; gap:22px;
-      align-items:start;
-    }
-    .lesson-text{
-      font-size:1.12rem; color:var(--text);
-    }
-    .lesson-text h3{
-      margin-top:0; font-size:2rem;
-    }
-    .illustration{
-      background:linear-gradient(180deg, #eef8ff, #f0fff5);
-      border:1px solid rgba(76,146,182,.12); border-radius:24px;
-      min-height:280px; display:grid; place-items:center; padding:16px;
-      position:relative;
-      overflow:hidden;
-    }
-    .bubble{
-      position:absolute; padding:10px 16px; border-radius:18px; background:#fff; box-shadow:var(--shadow);
-      font-weight:800; color:var(--blue-deep);
-      max-width:180px; text-align:center;
-    }
-    .bubble.a{top:24px; left:24px;}
-    .bubble.b{bottom:20px; right:18px;}
-    .mini-figure{
-      width:170px; height:200px; position:relative; margin-top:18px;
-    }
-    .mini-figure .head{
-      position:absolute; width:70px; height:70px; background:#f8d9b5; border-radius:50%;
-      top:16px; left:52px; border:3px solid rgba(0,0,0,.05);
-    }
-    .mini-figure .body{
-      position:absolute; width:110px; height:90px; background:linear-gradient(180deg, var(--green), var(--blue));
-      border-radius:24px; left:32px; top:82px;
-    }
-    .mini-figure .hand{
-      position:absolute; width:18px; height:60px; border-radius:12px; background:#f8d9b5;
-      top:94px;
-    }
-    .mini-figure .hand.left{left:12px; transform:rotate(20deg)}
-    .mini-figure .hand.right{right:12px; transform:rotate(-20deg)}
-    .mini-figure .heart{
-      position:absolute; width:38px; height:38px; background:linear-gradient(135deg, #ff9aa1, #f65f77);
-      transform:rotate(-45deg); left:66px; top:128px; border-radius:10px;
-    }
-    .mini-figure .heart:before,.mini-figure .heart:after{
-      content:""; position:absolute; width:38px; height:38px; background:inherit; border-radius:50%;
-    }
-    .mini-figure .heart:before{left:0; top:-18px}
-    .mini-figure .heart:after{left:18px; top:0}
-
-    .quiz-box{
-      background:#fff; border-radius:24px; padding:20px; margin-top:20px; border:1px solid rgba(57,120,96,.08);
-    }
-    .quiz-box h4{
-      margin:0 0 14px; font-size:1.6rem;
-    }
-    .question{
-      color:var(--text);
-      font-size:1.18rem;
-      margin-bottom:12px;
-    }
-    .answers{
-      display:grid; gap:12px; margin-top:14px;
-    }
-    .option{
-      display:flex; align-items:center; gap:12px;
-      width:100%; text-align:right; border:1px solid rgba(123,153,146,.25); background:#f8fbff; border-radius:16px; padding:14px 16px; cursor:pointer; font-weight:700; color:var(--text); transition:all .2s ease;
-    }
-    .option:hover{
-      border-color:rgba(59,179,110,.55); background:#effbf4;
-    }
-    .option.correct{
-      background:#e9fbef; border-color:#53c17d;
-      color:#0c7241;
-    }
-    .option.wrong{
-      background:#fdeae8; border-color:#e3604d;
-      color:#a8301d;
-    }
-    .option .mark{
-      width:26px; height:26px; border-radius:50%; background:#fff; display:grid; place-items:center; font-weight:900;
-      color:var(--green-deep); border:1px solid rgba(123,153,146,.25);
-    }
-    .qa-meta{
-      display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:16px; flex-wrap:wrap;
-    }
-    .feedback{
-      min-height:52px; padding:12px 14px; border-radius:14px; font-weight:800;
-      background:#f6f8fb; color:var(--muted); display:none;
-    }
-    .feedback.show{display:block}
-    .feedback.success{background:#eafcf1; color:#0f7a46}
-    .feedback.error{background:#feeae7; color:#b3392f}
-
-    .controls{
-      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-top:18px;
-    }
-    .sound-control{
-      display:flex; align-items:center; gap:8px;
-      background:#fff; border-radius:999px; border:1px solid rgba(73,94,84,.1); padding:8px 14px;
-      font-weight:700; color:var(--muted);
-    }
-    .toggle{
-      width:48px; height:28px; background:#dfe9e5; border-radius:999px; position:relative; cursor:pointer;
-      transition:.2s;
-    }
-    .toggle::after{
-      content:""; position:absolute; width:18px; height:18px; border-radius:50%; background:#fff; top:5px; right:5px; box-shadow:0 3px 6px rgba(0,0,0,.12); transition:.2s;
-    }
-    .toggle.on{background:var(--green);}
-    .toggle.on::after{right:24px}
-
-    .games-grid{
-      display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;
-    }
-    .match-card, .challenge-card{
-      background:#fff; border-radius:22px; box-shadow:var(--shadow); padding:18px;
-      border:1px solid rgba(30,52,44,.08);
-    }
-    .match-list{
-      display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;
-    }
-    .word-chip{
-      display:inline-block; background:#eef8ff; border:1px solid rgba(58,146,214,.14); border-radius:12px; padding:8px 10px; font-weight:800; color:var(--blue-deep);
-    }
-    .challenge-box{
-      background:linear-gradient(135deg, #fff9ed, #fff4d7); border-radius:18px; padding:16px; border:1px solid rgba(247,201,93,.25); margin-top:12px;
-    }
-
-    .results-panel{
-      display:none;
-      background:linear-gradient(135deg, #f7fff8, #edf7ff);
-      border:1px solid rgba(56,128,94,.1); border-radius:28px; box-shadow:var(--shadow);
-      padding:26px; margin-top:20px;
-    }
-    .results-panel.show{display:block}
-    .results-metrics{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:16px;
-    }
-    .metric{
-      background:#fff; border-radius:18px; padding:16px; text-align:center;
-      border:1px solid rgba(35,85,64,.08);
-    }
-    .metric strong{display:block; font-size:1.9rem; color:var(--green-deep)}
-    .metric span{color:var(--muted); font-weight:800}
-
-    .assistant-panel{
-      background:linear-gradient(135deg, #ffffff, #f5fbff); border:1px solid rgba(46,117,171,.1);
-      padding:20px; border-radius:24px; box-shadow:var(--shadow);
-    }
-    .assistant-head{
-      display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
-      margin-bottom:10px;
-    }
-    .avatar{
-      display:flex; align-items:center; gap:10px;
-    }
-    .avatar .pic{
-      width:52px; height:52px; border-radius:18px; background:linear-gradient(135deg, #bde0ff, #d5f0d2); display:grid; place-items:center; font-size:1.5rem;
-    }
-    .assistant-chat{
-      background:#f9fbff; border:1px solid rgba(82,104,110,.1); border-radius:18px; padding:14px; min-height:100px; color:#3a524d;
-      white-space:pre-line;
-      font-size:1rem;
-    }
-    .ai-form{
-      display:flex; gap:12px; margin-top:12px; flex-wrap:wrap;
-    }
-    .ai-form input{
-      flex:1; min-width:220px; padding:14px 16px; border-radius:14px; border:1px solid rgba(100,125,130,.18); background:#fff;
-    }
-    .ai-form button{
-      min-width:150px;
-    }
-    .status-line{
-      color:var(--muted); font-size:.95rem; margin-top:8px; font-weight:700;
-    }
+    /* Quiz modal */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;place-items:center;z-index:2000}
+    .overlay.show{display:grid}
+    .quiz-card{background:#fff;max-width:760px;width:96%;border-radius:14px;padding:18px}
+    .quiz-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .q-text{font-size:1.25rem;margin:12px 0}
+    .answers{display:grid;gap:10px}
+    .opt{background:#f6fbff;border:1px solid rgba(40,120,160,.08);padding:12px;border-radius:10px;cursor:pointer;font-weight:800}
+    .opt.correct{background:#e8fbef;border-color:#4fc17f;color:#065a35}
+    .opt.wrong{background:#fff0f0;border-color:#ee7d6b;color:#9b2f2f}
+    .controls{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+    .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:900}
+    .btn.primary{background:linear-gradient(135deg,var(--green),var(--blue));color:#fff}
+    .btn.ghost{background:#fff;border:1px solid rgba(20,60,50,.06)}
 
     /* Reward modal */
-    .reward-modal{
-      position:fixed; inset:0; display:grid; place-items:center; background:rgba(0,0,0,0.35); z-index:2000; opacity:0; pointer-events:none; transition:opacity .18s ease;
-    }
-    .reward-modal.show{opacity:1; pointer-events:auto}
-    .reward-card{
-      background:linear-gradient(135deg,#fff,#fffbf0); padding:22px; border-radius:16px; box-shadow:0 18px 40px rgba(10,40,30,0.18); text-align:center; width:min(520px,90%);
-    }
-    .reward-card h3{margin:0 0 6px; color:var(--gold-deep)}
-    .reward-card p{margin:6px 0 14px; font-weight:800}
-    .reward-card .close-btn{background:var(--green); color:#fff; border:none; padding:10px 16px; border-radius:10px; font-weight:900; cursor:pointer}
+    .reward-modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.45);z-index:2500}
+    .reward-modal.show{display:grid}
+    .reward-card{background:linear-gradient(135deg,#fffaf0,#fff8dd);padding:20px;border-radius:12px;text-align:center;max-width:420px;width:94%}
+    .reward-card h2{margin:6px 0;color:var(--gold)}
+    .reward-card p{font-weight:800}
 
-    @media (max-width: 880px){
-      .lesson-grid, .games-grid, .stats, .results-metrics, .lesson-content{
-        grid-template-columns:1fr;
-      }
-      .hero-grid{
-        grid-template-columns:1fr;
-      }
-      .topbar-inner{padding:12px 0}
-      .brand{font-size:1.05rem}
-      .main-title{font-size:2.5rem}
-    }
+    footer{padding:20px;text-align:center;color:var(--muted)}
 
-    @media (max-width: 560px){
-      .hero-card, .lesson-panel, .assistant-panel, .results-panel, .progress-wrap, .card{
-        padding:18px;
-      }
-      .top-actions{display:none}
-      .hero-actions{flex-direction:column; align-items:stretch}
-      .btn{width:100%}
-      .controls{flex-direction:column; align-items:stretch}
-    }
+    @media (max-width:560px){.brand{font-size:1rem}.q-text{font-size:1.05rem}}
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <div class="brand">
-        <div class="brand-badge">⭐</div>
-        رحلة أبطال التوحيد
-      </div>
-      <div class="top-actions">
-        <button class="mini-btn" id="soundToggleBtn">🔊 الصوت: مفعل</button>
-        <button class="mini-btn primary" id="progressBtn">عرض التقدم</button>
-      </div>
-    </div>
+  <header>
+    <div class="brand">رحلة أبطال التوحيد — دروس تفاعلية</div>
+    <div style="opacity:.95;font-weight:800">آمن للأطفال • واجهة عربية RTL</div>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="hero-card">
-        <div class="hero-grid">
-          <div>
-            <div class="eyebrow">رحلة تعليمية ممتعة وآمنة</div>
-            <h1>مرحبًا يا بطل التوحيد!</h1>
-            <div class="subtext">
-              اكتشف معنى التوحيد، وابدأ مغامرة مليئة بالنجوم، والألعاب، والعبادة، مع شرح سهل ومناسب للأطفال.
-            </div>
-            <div class="hero-actions">
-              <button class="btn primary" id="startJourney">ابدأ الرحلة</button>
-              <button class="btn secondary" id="showLessons">شاهد الدروس</button>
-            </div>
-            <div class="stats">
-              <div class="stat">
-                <strong id="pointsStat">0</strong>
-                <span>نقاط</span>
-              </div>
-              <div class="stat">
-                <strong id="starsStat">0</strong>
-                <span>نجوم</span>
-              </div>
-              <div class="stat">
-                <strong id="badgesStat">0</strong>
-                <span>أوسمة</span>
-              </div>
-              <div class="stat">
-                <strong id="balanceStat">0 د.إ</strong>
-                <span>رصيدك (درهم)</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="hero-art">
-            <div class="character">
-              <div class="hair"></div>
-              <div class="head"></div>
-              <div class="eye left"></div>
-              <div class="eye right"></div>
-              <div class="smile"></div>
-              <div class="arm left"></div>
-              <div class="arm right"></div>
-              <div class="body"></div>
-              <div class="star s1"></div>
-              <div class="star s2"></div>
-              <div class="star s3"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="progress-wrap">
-        <div class="progress-head">
-          <h2 style="margin:0;">تقدم الرحلة</h2>
-          <span id="progressText" style="font-weight:900; color:var(--green-deep);">0% مكتمل</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
-        <div class="badge-list" id="badgeList"></div>
-      </div>
-    </section>
-
-    <section class="section" id="lessonsSection">
-      <h2>الدروس التعليمية</h2>
-      <div class="lesson-grid" id="lessonGrid"></div>
-    </section>
-
-    <section class="section">
-      <h2>الألعاب والأنشطة</h2>
-      <div class="games-grid">
-        <div class="match-card">
-          <div class="icon">🧩</div>
-          <h3>مطابقة الكلمات</h3>
-          <div class="match-list">
-            <span class="word-chip">التوحيد</span>
-            <span class="word-chip">الإخلاص</span>
-            <span class="word-chip">العبادة</span>
-            <span class="word-chip">الدعاء</span>
-          </div>
-        </div>
-
-        <div class="match-card">
-          <div class="icon">✅</div>
-          <h3>صح أم خطأ</h3>
-          <div class="challenge-box">
-            كل إجابة صحيحة تمنح نجمة إضافية.
-          </div>
-        </div>
-
-        <div class="match-card">
-          <div class="icon">🎯</div>
-          <h3>تحديات قصيرة</h3>
-          <div class="challenge-box">
-            حلّ الأسئلة داخل كل درس واستمرّ حتى تصل إلى القمة.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="lesson-shell active" id="lessonView"></div>
-    </section>
-
-    <section class="section">
-      <div class="assistant-panel">
-        <div class="assistant-head">
-          <div class="avatar">
-            <div class="pic">🤖</div>
-            <div>
-              <strong>المعلمة الرقمية</strong><br>
-              <span style="color:var(--muted); font-weight:700;">مساعدة ذكية باللغة العربية</span>
-            </div>
-          </div>
-          <div class="badge">تدرب على الفهم</div>
-        </div>
-
-        <div class="assistant-chat" id="assistantChat">
-كانت المعلمة في الطريق... اكتب سؤالك عن أي درس، وسأساعدك بطريقة سهلة، مع مثال صغير ثم سؤال بسيط للتأكد من فهمك.
-        </div>
-
-        <form class="ai-form" id="aiForm">
-          <input id="aiInput" type="text" placeholder="اكتب سؤالك هنا..." aria-label="اكتب سؤالك هنا" />
-          <button class="btn primary" type="submit">اسأل المعلمة</button>
-        </form>
-        <div class="status-line" id="aiStatus">
-ملاحظة: هذه الميزة تتطلب خدمة ذكاء اصطناعي حقيقية على الخادم عبر مفتاح API آمن. إذا لم تتوفر الخدمة فسيتم إظهار رسالة واضحة وعدم ادعاء وجود ذكاء حقيقي.
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>الاختبار النهائي</h2>
-      <div class="results-panel" id="finalResults">
-        <h3 style="margin-top:0;">نتيجة رحلتك</h3>
-        <p id="resultMessage">أكمل الاختبار لعرض النتيجة.</p>
-        <div class="results-metrics">
-          <div class="metric">
-            <strong id="finalPoints">0</strong>
-            <span>نقاط</span>
-          </div>
-          <div class="metric">
-            <strong id="finalStars">0</strong>
-            <span>نجوم</span>
-          </div>
-          <div class="metric">
-            <strong id="finalBadges">0</strong>
-            <span>أوسمة</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Reward modal -->
-  <div class="reward-modal" id="rewardModal" aria-hidden="true">
-    <div class="reward-card" role="dialog" aria-modal="true">
-      <h3 id="rewardTitle">مبروك!</h3>
-      <p id="rewardText">ربحت 100 د.إ</p>
-      <button class="close-btn" id="closeReward">أغلق</button>
-    </div>
+  <!-- Fixed lesson button + balance -->
+  <div class="fixed-lesson" aria-hidden="false">
+    <div class="balance-badge" id="balanceTop">0 د.إ</div>
+    <button class="lesson-btn" id="startLessonBtn">تعلم درس</button>
   </div>
 
+  <main class="container">
+    <h2 style="margin-top:6px">اختر درسًا أو اضغط "تعلم درس" لبدء اختبار مكوّن من 10 أسئلة</h2>
+
+    <div class="lessons-grid" id="lessonsGrid"></div>
+
+    <!-- Quiz overlay -->
+    <div class="overlay" id="quizOverlay" role="dialog" aria-modal="true">
+      <div class="quiz-card" id="quizCard">
+        <div class="quiz-head">
+          <div style="font-weight:900" id="quizTitle">درس تجريبي</div>
+          <div style="color:var(--muted)" id="quizProgress">1 / 10</div>
+        </div>
+        <div class="q-text" id="questionText">السؤال هنا</div>
+        <div class="answers" id="answersList"></div>
+        <div class="controls">
+          <div style="color:var(--muted);font-weight:800" id="quizScore">الدرجات: 0</div>
+          <div>
+            <button class="btn ghost" id="quitQuiz">إنهاء</button>
+            <button class="btn primary" id="nextBtn">التالي</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reward modal -->
+    <div class="reward-modal" id="rewardModal">
+      <div class="reward-card">
+        <h2 id="rewardTitle">مبروك!</h2>
+        <p id="rewardText">لقد ربحت 100 د.إ</p>
+        <div style="margin-top:12px">
+          <button class="btn primary" id="closeReward">حسناً</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>هذا الموقع تعليمي منزلي — المكافآت نقدًا تُدار بين الأهل والأبناء خارج التطبيق.</footer>
+
   <script>
-    const lessons = [
-      {
-        id: 1,
-        title: "معنى التوحيد",
-        icon: "🌙",
-        summary: "التوحيد يعني: إفراد الله بالعبادة، والاعتقاد، والدعاء، والاعتماد.",
-        content: `
-          <div class="lesson-hero">
-            <div class="lesson-badge">درس 1</div>
-            <button class="btn primary" onclick="speakLesson('التوحيد يعني: إفراد الله سبحانه وتعالى بالعبادة، والدعاء، والاعتماد عليه وحده. وهو أساس ديننا، ومن صفات المؤمن أن يعبد الله وحده ولا يشرك به أحدًا.')">🎧 استمع إلى الدرس</button>
+    // بيانات بسيطة: 6 دروس، كل درس يستعمل 10 أسئلة (بناء تلقائي من أسئلة قصيرة)
+    const lessonBank = [
+      {id:1,title:'معنى التوحيد'},
+      {id:2,title:'لماذا نعبد الله وحده؟'},
+      {id:3,title:'معنى العبادة'},
+      {id:4,title:'الدعاء والاستعانة بالله'},
+      {id:5,title:'أهمية الإخلاص'},
+      {id:6,title:'أمثلة من حياتنا اليومية'}
+    ];
+
+    const storageKey = 'ua-tawheed-v2';
+    const state = { balance:0, awardedLessons:[], completed:[] };
+
+    function save(){ localStorage.setItem(storageKey, JSON.stringify(state)); }
+    function load(){ try{ const s=localStorage.getItem(storageKey); if(s){ Object.assign(state, JSON.parse(s)); } }catch(e){console.warn(e);} }
+
+    // build lessons grid
+    function renderLessons(){
+      const grid = document.getElementById('lessonsGrid');
+      grid.innerHTML = lessonBank.map(l=>{
+        const done = state.awardedLessons.includes(l.id);
+        return `<div class="card">
+          <h3>${l.title}</h3>
+          <p>اختبار تفاعلي مكوّن من 10 أسئلة قصيرة.</p>
+          <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-start">
+            <button class="start-small" data-id="${l.id}">${done? 'أنهيت' : 'ابدأ الدرس'}</button>
+            ${done? '<div style="padding:8px;border-radius:8px;background:linear-gradient(90deg,#fff,#f6ffef);font-weight:800;color:#2a6;">+100 د.إ</div>':''}
           </div>
-          <div class="lesson-content">
-            <div class="lesson-text">
-              <h3>ما معنى التوحيد؟</h3>
-              <p>التوحيد هو أن نعرف الله بأسمائه وصفاته، وأن نعبدَه وحده دون أن نطلب من غيره ما لا يقدر عليه إلا الله.</p>
-              <p>أمثلة من حياة الطفل: عندما يطلب الطفل من والديه شيئًا، فهو يدعو الله ويرجع إلى الله في حاجته. أما التوحيد فيكون في الإيمان بأن الله هو الذي يرزق، ويغفر، ويعطي، ويعظم.</p>
-              <p><strong>التوحيد ليس مجرد قول، بل هو عمل قَلْبٍ وعبادةٌ واعتقادٌ صحيح.</strong></p>
-            </div>
-            <div class="illustration">
-              <div class="bubble a">أنا أعبد الله وحده</div>
-              <div class="mini-figure">
-                <div class="head"></div>
-                <div class="body"></div>
-                <div class="hand left"></div>
-                <div class="hand right"></div>
-                <div class="heart"></div>
-              </div>
-              <div class="bubble b">الله هو خالقي</div>
-            </div>
-          </div>
-          <div class="quiz-box">
-            <h4>سؤال تفاعلي</h4>
-            <div class="question">ما معنى التوحيد؟</div>
-            <div class="answers">
-              <button class="option" data-correct="false">أن نعبد الناس</button>
-              <button class="option" data-correct="true">أن نعبد الله وحده</button>
-              <button class="option" data-correct="false">أن ننسى الله</button>
-              <button class="option" data-correct="false">أن نطلب من غير الله</button>
-            </div>
-            <div class="qa-meta">
-              <div class="feedback" id="feedback-1"></div>
-              <button class="btn secondary" onclick="nextLessonOrFinish(1)">التالي</button>
-            </div>
-          </div>
-        `
-      },
-      {
-        id: 2,
-        title: "لماذا نعبد الله وحده؟",
-        icon: "💡",
-        summary: "لأن الله هو الخالق، والرزاق، والمستحق للعبادة.",
-        content: `
-          <div class="lesson-hero">
-            <div class="lesson-badge">درس 2</div>
-            <button class="btn primary" onclick="speakLesson('نعبد الله وحده لأن الله هو الخالق، وهو الذي يرزقنا، ويعطينا، ويغفر ذنوبنا. فالله وحده هو المستحق للعبادة، لا يشاركه أحد في ذلك.')">🎧 استمع إلى الدرس</button>
-          </div>
-          <div class="lesson-content">
-            <div class="lesson-text">
-              <h3>لماذا نعبد الله وحده؟</h3>
-              <p>لأن الله هو الذي خلقنا، وأمدّنا بالأرواح، ورزقنا الطعام، والماء، والهواء، والماء، والوقت.</p>
-              <p>عندما نعبد الله وحده، نعرف أنه لا يضيع جهدنا، وأنه رحيم، وغفور، ومحبٌّ للمؤمنين.</p>
-              <p>ومن أمثلة ذلك: إذا طلب الطفل من الله أن يساعده في الحفظ أو في الصبر، فهذا من التوحيد في الدعاء والاستعانة.</p>
-            </div>
-            <div class="illustration">
-              <div class="bubble a">الله خلقني</div>
-              <div class="mini-figure">
-                <div class="head"></div>
-                <div class="body"></div>
-                <div class="hand left"></div>
-                <div class="hand right"></div>
-                <div class="heart"></div>
-              </div>
-              <div class="bubble b">أنا أطلب المساعدة من الله</div>
-            </div>
-          </div>
-          <div class="quiz-box">
-            <h4>سؤال تفاعلي</h4>
-            <div class="question">من هو الذي خلقنا ويدفع عنا الفوائد؟</div>
-            <div class="answers">
-              <button class="option" data-correct="true">الله سبحانه وتعالى</button>
-              <button class="option" data-correct="false">الناس</button>
-              <button class="option" data-correct="false">الأشياء نفسها</button>
-              <button class="option" data-correct="false">الهواء وحده</button>
-            </div>
-            <div class="qa-meta">
-              <div class="feedback" id="feedback-2"></div>
-              <button class="btn secondary" onclick="nextLessonOrFinish(2)">التالي</button>
-            </div>
-          </div>
-        `
-      },
-      {
-        id: 3,
-        title: "معنى العبادة",
-        icon: "🤲",
-        summary: "العبادة هي كل ما يحبه الله ويرضاه من قولٍ أو عمل.",
-        content: `
-          <div class="lesson-hero">
-            <div class="lesson-badge">درس 3</div>
-            <button class="btn primary" onclick="speakLesson('العبادة هي كل ما يحبه الله ويرضاه من قول أو عمل، مثل الصلاة، والدعاء، والقراءة، والإحسان إلى الآخرين. والعبادة ليست مجرد طقوس فقط، بل هي قلوب متوجهة إلى الله.')">🎧 استمع إلى الدرس</button>
-          </div>
-          <div class="lesson-content">
-            <div class="lesson-text">
-              <h3>ما معنى العبادة؟</h3>
-              <p>العبادة تعني الخضوع والطاعة لله، في كل ما يحبه ويرضاه، من صبر، ودعاء، وصلاة، وقراءة، وإحسان.</p>
-              <p>مثال: عندما يساعد الطفل أخاه، أو يذكر الله، أو يقرأ آيات، فهذا من العبادة.</p>
-              <p>وهي ليست خاصة بمكة أو مسجد فقط، بل تشمل كل عمل صالح في حياتنا اليومية.</p>
-            </div>
-            <div class="illustration">
-              <div class="bubble a">أصلّي وأحسن</div>
-              <div class="mini-figure">
-                <div class="head"></div>
-                <div class="body"></div>
-                <div class="hand left"></div>
-                <div class="hand right"></div>
-                <div class="heart"></div>
-              </div>
-              <div class="bubble b">أنا أعبد الله في كل شيء</div>
-            </div>
-          </div>
-          <div class="quiz-box">
-            <h4>سؤال تفاعلي</h4>
-            <div class="question">ماذا يعني أن نعبد الله؟</div>
-            <div class="answers">
-              <button class="option" data-correct="false">أن ننساه</button>
-              <button class="option" data-correct="true">أن نطيع الله ونحبه</button>
-              <button class="option" data-correct="false">أن نطلب من غير الله</button>
-              <button class="option" data-correct="false">أن نضحك فقط</button>
-            </div>
-            <div class="qa-meta">
-              <div class="feedback" id="feedback-3"></div>
-              <button class="btn secondary" onclick="nextLessonOrFinish(3)">التالي</button>
-            </div>
-          </div>
-        `
-      },
-      {
-        id: 4,
-        title: "الدعاء والاستعانة بالله",
-        icon: "🙏",
-        summary: "الدعاء هو التوجه إلى الله، والاستعانة بمعرفته وكرمه.",
-        content: `
-          <div class="lesson-hero">
-            <div class="lesson-badge">درس 4</div>
-            <button class="btn primary" onclick="speakLesson('الدعاء هو أن نطلب من الله الهداية، العون، والعافية، والسداد. والاستعانة بالله معناها أن نطلب المساعدة منه وحده، مع الإيمان أنه يقودنا ويعطي الخير.')">🎧 استمع إل... (truncated for brevity)
+        </div>`;
+      }).join('');
+
+      // attach handlers
+      document.querySelectorAll('.start-small').forEach(btn=>btn.addEventListener('click',()=>{
+        const id = Number(btn.dataset.id);
+        startLessonById(id);
+      }));
+    }
+
+    // Simple question generator: pick from a pool of templates
+    const qPool = [
+      {q:'ما معنى التوحيد؟',opts:['أن نعبد الله وحده','أن نعبد الناس','أن ننسى الله','أن نطلب من الصور'],correct:0},
+      {q:'لماذا نعبد الله؟',opts:['لأنه خالقنا','لأن الناس يفعلون','للمكسب فقط','لا سبب'],correct:0},
+      {q:'ما هي العبادة؟',opts:['كل ما يحبّه الله','الجلوس فقط','اللعب والمزاح','السرقة'],correct:0},
+      {q:'ماذا نفعل عند الحاجة؟',opts:['ندعو الله ونستعين به','نزور أحداً آخر','لا نفعل شيئاً','نبتعد'],correct:0},
+      {q:'ما معنى الإخلاص؟',opts:['العمل لله لا للناس','العمل للمدح','العمل للمال فقط','التظاهر'],correct:0},
+      {q:'ماذا نفعل قبل الطعام؟',opts:['نذكر الله ونشكره','ننتظر فقط','نترك الطبق','نركض'],correct:0},
+      {q:'من يستحق العبادة؟',opts:['الله وحده','النجوم','اللعبة','الصورة'],correct:0},
+      {q:'من يمنحنا الرزق؟',opts:['الله سبحانه','المال فقط','الصدفة','الحظ'],correct:0},
+      {q:'هل الدعاء مفيد؟',opts:['نعم، وهو عبادة','لا، ليس له فائدة','فقط للعب','غير معروف'],correct:0},
+      {q:'متى نكون مخلصين؟',opts:['عندما نعمل لوجه الله','عندما نريد المدح','عند الخداع','عند الكذب'],correct:0}
+    ];
+
+    // Create a 10-question quiz for a lesson (randomized non-repeating)
+    function buildQuizQuestions(){
+      const copy = [...qPool];
+      const questions = [];
+      for(let i=0;i<10;i++){
+        if(copy.length===0) copy.push(...qPool);
+        const idx = Math.floor(Math.random()*copy.length);
+        const item = copy.splice(idx,1)[0];
+        // shuffle options
+        const opts = item.opts.map((o,i)=>({o,i}));
+        for(let j= opts.length-1;j>0;j--){ const k=Math.floor(Math.random()*(j+1)); [opts[j],opts[k]]=[opts[k],opts[j]] }
+        // find new correct index
+        const correctOpt = opts.findIndex(x=>x.i===item.correct);
+        questions.push({q:item.q,opts:opts.map(x=>x.o),correct:correctOpt});
+      }
+      return questions;
+    }
+
+    // Quiz runtime state
+    let quiz = null; // {lessonId,questions,idx,score}
+
+    function openQuizUI(){ document.getElementById('quizOverlay').classList.add('show'); renderQuiz(); }
+    function closeQuizUI(){ document.getElementById('quizOverlay').classList.remove('show'); quiz=null; }
+
+    function startLessonById(lessonId){
+      // if already awarded, still allow retake but no extra money
+      const lesson = lessonBank.find(x=>x.id===lessonId);
+      if(!lesson) return alert('درس غير موجود');
+      quiz = {lessonId,questions:buildQuizQuestions(),idx:0,score:0,answered:false};
+      document.getElementById('quizTitle').textContent = lesson.title;
+      openQuizUI();
+    }
+
+    function renderQuiz(){
+      if(!quiz) return;
+      const q = quiz.questions[quiz.idx];
+      document.getElementById('quizProgress').textContent = `${quiz.idx+1} / ${quiz.questions.length}`;
+      document.getElementById('questionText').textContent = q.q;
+      const answersList = document.getElementById('answersList'); answersList.innerHTML='';
+      q.opts.forEach((opt,i)=>{
+        const btn = document.createElement('div'); btn.className='opt'; btn.tabIndex=0; btn.textContent = opt;
+        btn.addEventListener('click',()=>selectOption(i,btn));
+        answersList.appendChild(btn);
+      });
+      document.getElementById('quizScore').textContent = `الدرجات: ${quiz.score}`;
+      // next button
+      document.getElementById('nextBtn').textContent = quiz.idx+1===quiz.questions.length ? 'إنهاء' : 'التالي';
+    }
+
+    function selectOption(index,btnElement){
+      if(!quiz || quiz.answered) return; quiz.answered=true;
+      const q = quiz.questions[quiz.idx];
+      const nodes = Array.from(document.querySelectorAll('.opt'));
+      // mark correct/wrong
+      nodes.forEach((n,ii)=>{ n.classList.remove('correct','wrong'); n.style.pointerEvents='none'; });
+      if(index===q.correct){ btnElement.classList.add('correct'); quiz.score+=10; }
+      else{ btnElement.classList.add('wrong'); nodes[q.correct].classList.add('correct'); }
+      document.getElementById('quizScore').textContent = `الدرجات: ${quiz.score}`;
+    }
+
+    document.getElementById('nextBtn').addEventListener('click',()=>{
+      if(!quiz) return;
+      // if not answered, treat as wrong and move on
+      quiz.answered=false;
+      if(quiz.idx+1 < quiz.questions.length){ quiz.idx++; renderQuiz(); }
+      else{ finishQuiz(); }
+    });
+
+    document.getElementById('quitQuiz').addEventListener('click',()=>{
+      if(confirm('هل تريد الخروج من الاختبار؟ التقدم غير محفوظ.')) closeQuizUI();
+    });
+
+    function finishQuiz(){
+      const lessonId = quiz.lessonId;
+      const earned = 100;
+      // award only once per lesson
+      const firstTime = !state.awardedLessons.includes(lessonId);
+      if(firstTime){ state.balance += earned; state.awardedLessons.push(lessonId); }
+      // save completed array
+      if(!state.completed.includes(lessonId)) state.completed.push(lessonId);
+      save(); updateUI();
+      // show reward modal
+      document.getElementById('rewardTitle').textContent = 'مبروك يا بطل!';
+      document.getElementById('rewardText').textContent = firstTime ? `لقد ربحت ${earned} د.إ` : 'لقد أنهيت الدرس سابقًا — لا يوجد رصيد إضافي';
+      document.getElementById('rewardModal').classList.add('show');
+      closeQuizUI();
+    }
+
+    document.getElementById('closeReward').addEventListener('click',()=>{
+      document.getElementById('rewardModal').classList.remove('show'); renderLessons();
+    });
+
+    // Start Lesson button top-right uses next uncompleted lesson or asks to pick
+    document.getElementById('startLessonBtn').addEventListener('click',()=>{
+      // find first lesson not yet awarded
+      const next = lessonBank.find(l=>!state.awardedLessons.includes(l.id));
+      if(next){ startLessonById(next.id); }
+      else{ if(confirm('لقد أنهيت كل الدروس. هل تريد إعادة محاولة درس سابق؟')) startLessonById(lessonBank[0].id); }
+    });
+
+    // start by loading saved state
+    function updateUI(){ document.getElementById('balanceTop').textContent = `${state.balance} د.إ`; renderLessons(); }
+    load(); updateUI();
+
+    // click on lessons grid handled via renderLessons
+  </script>
+</body>
+</html>
